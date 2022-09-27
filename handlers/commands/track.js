@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-
+const channels = require("../../config/channels.json");
 const functions = require("../functions.js");
 
 module.exports.run = (interaction) => {
@@ -22,6 +22,12 @@ module.exports.run = (interaction) => {
                     .setAuthor({ name: "Now tracking " + data.name + "!", iconURL: "https://mc-heads.net/avatar/" + data.uuid + "/64"})
                     .setTimestamp();
                 interaction.reply({ embeds: [successEmbed], ephemeral: true });
+                const trackedEmbed = new Discord.EmbedBuilder()
+                    .setColor('#36699c')
+                    .setDescription("Started tracking a new user.")
+                    .setAuthor({ name: "" + data.name, iconURL: "https://mc-heads.net/avatar/" + data.uuid + "/64"})
+                    .setTimestamp();
+                interaction.guild.channels.cache.get(channels.trackedChannel).send({ embeds: [trackedEmbed] });
             } else {
                 const successEmbed = new Discord.EmbedBuilder()
                     .setColor('#a84040')

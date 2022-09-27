@@ -12,6 +12,7 @@ module.exports.getCurWins = getCurWins;
 module.exports.getUUID = getUUID;
 module.exports.getHypixel = getHypixel;
 module.exports.runLoops = runLoops;
+module.exports.logError = logError;
 
 async function getHypixel(id) {
     return new Promise(async function (resolve, reject) {
@@ -155,4 +156,39 @@ function runLoops(guild) {
             })
         }
     }, 1000);
+}
+
+function logError(message) {
+    let day = new Date().getDate();
+    let year = new Date().getFullYear();
+    let month = new Date().getMonth() + 1;
+    let hours = new Date().getHours() + 1;
+    let minutes = new Date().getMinutes() + 1;
+    let seconds = new Date().getSeconds() + 1;
+    let time =
+        month.toString() +
+        "/" +
+        day.toString() +
+        "/" +
+        year.toString() +
+        "[" +
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        seconds +
+        "]";
+
+    // Write to the file
+    let logFile = fs.createWriteStream("./errors/error.log", { flags: "a" });
+
+    // If the message to log doesn't exist...
+    if (!message) {
+        logFile.write(
+            util.format("[" + time + "] " + "Could not get message.") + "\n"
+        );
+    } else {
+        // Add the time stamp to the message
+        logFile.write(util.format("[" + time + "] " + message) + "\n");
+    }
 }

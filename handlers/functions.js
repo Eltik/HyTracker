@@ -155,7 +155,7 @@ function runLoops(guild) {
                 })
             })
         }
-    }, 1000);
+    }, 60000);
 }
 
 function logError(message) {
